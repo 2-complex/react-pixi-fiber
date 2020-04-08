@@ -1,12 +1,15 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { withApp } from "react-pixi-fiber";
-import Bunny from "../Bunny";
+import Sprites from "../Bunny";
 
 // http://pixijs.io/examples/#/basics/basic.js
 class RotatingBunny extends Component {
   state = {
     rotation: 0,
+    texture: 0,
+    x: 10,
+    y: 10,
   };
 
   componentDidMount() {
@@ -24,12 +27,15 @@ class RotatingBunny extends Component {
     this.setState(state => ({
       ...state,
       rotation: state.rotation + this.props.step * delta,
+      x: Math.random() * 500,
+      y: Math.random() * 500,
+      texture: Math.floor(state.rotation) % 32,
     }));
   };
 
   render() {
     const { step, ...props } = this.props;
-    return <Bunny {...props} rotation={this.state.rotation} />;
+    return <Sprites.Shippy {...props} x = {this.state.x} y = {this.state.y} rotation={0} texture={this.state.texture} />;
   }
 }
 RotatingBunny.propTypes = {
@@ -37,7 +43,7 @@ RotatingBunny.propTypes = {
   step: PropTypes.number,
 };
 RotatingBunny.defaultProps = {
-  step: 0.1,
+  step: 0,
 };
 
 export default withApp(RotatingBunny);
